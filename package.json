@@ -1,0 +1,17 @@
+{
+  "name": "storymatchmaker",
+  "version": "1.0.0",
+  "description": "Stories lead to karma",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "peter han",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.6.2"
+  }
+}
