@@ -4,7 +4,7 @@ const presets = [
             node: 8
         },
 
-        useBuiltIns: "usage"
+        useBuiltIns: 'usage'
     }]
 ];
 

@@ -22,6 +22,7 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/register": "^7.0.0",
     "apidoc": "^0.17.7",
+    "eslint": "^5.10.0",
     "grunt": "^1.0.3",
     "koa-router": "^7.4.0"
   }

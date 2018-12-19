@@ -11,6 +11,7 @@
 
 function test(ctx, next) {
     ctx.response.body = '<h1>index page</h1>';
+    next();
 }
 
 export default test;
