@@ -1,10 +1,16 @@
-const child_process = require('child_process');
-
-const babelCompileCMD = "babel src --out-dir lib -s";
-
 module.exports = function(grunt) {
+    const apidoc = require('apidoc');
+    const child_process = require('child_process');
+    const babelCompileCMD = "babel src --out-dir lib -s";
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        apidoc: {
+            api: {
+                src: 'src',
+                dest: 'apidoc'
+            }
+        }
     });
 
     // 
@@ -20,5 +26,25 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask('default', ['babel7']);
+    grunt.registerMultiTask('apidoc', 'Create RESTful API document with apidoc', function() {
+        grunt.log.subhead('grunt apidoc');
+
+        const config = this.data || {};
+        const options = config.options || {};
+
+        options.src = config.src || config.i || options.i;
+        options.dest = config.dest || config.o || options.o;
+        options.template = config.template || config.t || options.t;
+
+        var result = apidoc.createDoc(options);
+        if (result) {
+            grunt.log.ok('create RESTful API success');
+            return true;
+        } else {
+            grunt.log.fail('create RESTful API failed');
+            return false;
+        }
+    })
+
+    grunt.registerTask('default', ['babel7', 'apidoc']);
 }
