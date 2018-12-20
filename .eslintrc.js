@@ -5,7 +5,7 @@ module.exports = {
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 2015,
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
     "rules": {
@@ -25,6 +25,14 @@ module.exports = {
             "error",
             "always"
         ],
-        "no-trailing-spaces": "error"
+        "no-trailing-spaces": "error",
+        "no-lonely-if": "error",
+        "eol-last": "error",
+        "indent": ["error", 4],
+        "no-multiple-empty-lines": "error",
+        // ES6
+        "no-var": "error",
+        "prefer-const": "error",
+        "arrow-spacing": "error"
     }
 };

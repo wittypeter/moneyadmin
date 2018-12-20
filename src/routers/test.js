@@ -9,9 +9,8 @@
  * @apiSuccess {String} lastname  Lastname of the User.
  */
 
-function test(ctx, next) {
-    ctx.response.body = '<h1>index page</h1>';
-    next();
-}
+export default async(ctx, next) => {
+    await next();
 
-export default test;
+    ctx.response.body = '<h1>index page</h1>';
+};

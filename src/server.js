@@ -1,13 +1,12 @@
 import Koa from 'koa';
-const router = require('koa-router')();
+import koaRouter from 'koa-router';
 
+import routerConnect from './routers/index';
+
+const router = koaRouter();
 const app = new Koa();
 
-
-router.get('/', (ctx, next) => {
-    ctx.response.body = '<h1>hello</h1>';
-    next();
-});
+routerConnect(router)({});
 
 app.use(router.routes());
 
