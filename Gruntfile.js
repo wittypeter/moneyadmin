@@ -1,31 +1,66 @@
 module.exports = function(grunt) {
+    require('load-grunt-tasks')(grunt);
+    require('time-grunt')(grunt);
+
     const apidoc = require('apidoc');
-    const child_process = require('child_process');
-    const babelCompileCMD = 'babel src --out-dir lib -s';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         apidoc: {
             genAPI: {
-                src: 'src',
-                dest: 'apidoc'
+                src: '<%= pkg.apidoc.src %>',
+                dest: '<%= pkg.apidoc.dest %>'
             },
             startServer: {
             }
-        }
-    });
-
-    //
-    grunt.registerTask('babel7', 'use babel7 to compile code', function() {
-        grunt.log.subhead(`running command ${babelCompileCMD}`);
-        // FIXME: async to sync
-        child_process.exec(babelCompileCMD, function(err) {
-            if (err) {
-                grunt.log.error(`babel compile error ${err}`);
-            } else {
-                grunt.log.ok('babel compile success');
+        },
+        clean: {
+            uglify: {
+                files: [{
+                    dot: true,
+                    src: ['<%= pkg.uglify.dest %>/*']
+                }]
+            },
+            apidoc: {
+                files: [{
+                    dot: true,
+                    src: ['<%= pkg.apidoc.dest %>/*']
+                }]
             }
-        });
+        },
+        uglify: {
+            source: {
+                options: {
+                    mangle: false,
+                    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
+                    compress: {
+                        drop_console: true
+                    },
+                    sourceMap: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.uglify.src %>/',
+                    src: ['**/*.js', '!apidocServer/*'],
+                    dest: '<%= pkg.uglify.dest %>'
+                }]
+            },
+            apidocServer: {
+                options: {
+                    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
+                    compress: {
+                        drop_console: true
+                    },
+                    sourceMap: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.apidocServer.src %>/',
+                    src: ['**/*.js'],
+                    dest: '<%= pkg.apidocServer.dest %>'
+                }]
+            }
+        }
     });
 
     grunt.registerMultiTask('apidoc', 'Create RESTful API document with apidoc', function() {
@@ -38,7 +73,7 @@ module.exports = function(grunt) {
             options.dest = config.dest || config.o || options.o;
             options.template = config.template || config.t || options.t;
 
-            var result = apidoc.createDoc(options);
+            const result = apidoc.createDoc(options);
             if (result) {
                 grunt.log.ok('create RESTful API success');
                 return true;
@@ -57,5 +92,11 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['babel7', 'apidoc']);
+    grunt.registerTask('default', ['clean', 'apidoc', 'uglify']);
+
+    grunt.registerTask('build', 'build project', [
+        'clean',
+        'apidoc',
+        'uglify'
+    ]);
 };

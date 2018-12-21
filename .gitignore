@@ -9,3 +9,6 @@ package-lock.json
 
 # file from babel compile
 lib/
+
+# source
+build/
