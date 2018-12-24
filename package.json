@@ -6,6 +6,7 @@
   "scripts": {
     "grunt": "grunt",
     "build": "grunt build",
+    "lint": "eslint src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -22,12 +23,16 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.0",
     "@babel/register": "^7.0.0",
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
     "apidoc": "^0.17.7",
+    "commitlint": "^7.2.1",
     "eslint": "^5.10.0",
     "grunt": "^1.0.3",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
+    "husky": "^1.2.1",
     "koa-router": "^7.4.0",
     "load-grunt-tasks": "^4.0.0",
     "time-grunt": "^2.0.0"
@@ -43,5 +48,11 @@
   "apidoc": {
     "src": "src",
     "dest": "apidoc/doc"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
