@@ -10,8 +10,6 @@ module.exports = function(grunt) {
             genAPI: {
                 src: '<%= pkg.apidoc.src %>',
                 dest: '<%= pkg.apidoc.dest %>'
-            },
-            startServer: {
             }
         },
         clean: {
@@ -60,6 +58,16 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.apidocServer.dest %>'
                 }]
             }
+        },
+        'http-server': {
+            'apidoc': {
+                root: 'apidoc/doc/',
+                port: 8888,
+                autoIndex: true,
+                ext: "html",
+                // do not log request info
+                logFn: function(req, res, error) {}
+            }
         }
     });
 
@@ -82,14 +90,6 @@ module.exports = function(grunt) {
                 return false;
             }
         }
-
-        if (this.target === 'startServer') {
-            // TODO: if api server running, do nothing, else run api server
-            grunt.log.subhead('grunt start API server');
-            grunt.log.ok('start server success');
-            grunt.log.ok(`API server is running at ${'http://localhost:8888'}`);
-            return true;
-        }
     });
 
     grunt.registerTask('default', ['clean', 'apidoc', 'uglify']);
@@ -99,4 +99,6 @@ module.exports = function(grunt) {
         'apidoc',
         'uglify'
     ]);
+
+    grunt.registerTask('apiserver', 'start api doc server', ['http-server:apidoc']);
 };
