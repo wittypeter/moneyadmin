@@ -1,11 +1,13 @@
 {
-  "name": "storymatchmaker",
+  "name": "weibo",
   "version": "1.0.0",
   "description": "Stories lead to karma",
   "main": "index.js",
   "scripts": {
     "grunt": "grunt",
     "build": "grunt build",
+    "start": "echo \"server running at http:127.0.0.1:3000\" && node ./build/index.js",
+    "apidoc": "grunt apiserver",
     "lint": "eslint src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +34,7 @@
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-http-server": "^2.1.0",
     "husky": "^1.2.1",
     "koa-router": "^7.4.0",
     "load-grunt-tasks": "^4.0.0",
